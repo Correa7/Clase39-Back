@@ -24,8 +24,8 @@ const getUser = async (req,res)=>{
 
 const getUserById = async (req, res) => {
     try {
-        const _id = req.params.id;
-        const user= await  Service.getById(_id)
+        const uid = req.params.uid;
+        const user= await  Service.getById(uid)
         return user? 
         res.status(200).json({
             status: 'success', 
@@ -50,23 +50,24 @@ const getUserById = async (req, res) => {
 
 const postUser = (req, res) => {
     res.redirect('/session/login')
-}
+} 
 
 const rolUserById = async (req,res)=>{
     try{
-        let id = req.params.uid
-        const user= await  Service.getById(id)
+        let _id = req.params.uid
+        const user = await  Service.getById(_id)
+        console.log(user)
         if(user.rol === 'User'){
-            user.rol='Premium'
-            await Service.updateOne(id, user.firstName, user.lastName,  user.email, user.age, user.password, user.rol)
+            user.rol= 'Premium' 
+            await Service.updateOne(_id, user.firstName, user.lastName, user.email, user.age, user.password, user.rol)
             return res.status(201).json({
                 status: 'success',
                 msg: 'User update rol: Premium',
             });
 
         }else{
-            user.rol='User'
-            await Service.updateOne(id, user.firstName, user.lastName,  user.email, user.age, user.password, user.rol)
+            user.rol= 'User'
+            await Service.updateOne(_id, user.firstName, user.lastName, user.email, user.age, user.password, user.rol)
             return res.status(201).json({
                 status: 'success',
                 msg: 'User update rol: User',
@@ -85,8 +86,8 @@ const rolUserById = async (req,res)=>{
 
 const delUserById =  async (req, res) => {
     try {
-    const _id = req.params.id;
-    await Service.deletedOne(_id)
+    const uid = req.params.uid;
+    await Service.deletedOne(uid)
     return res.status(200).json({
         status: 'success',
         msg: 'User deleted',
@@ -104,11 +105,11 @@ const delUserById =  async (req, res) => {
 
 const putUserById = async (req, res) => { 
     try {
-        const _id = req.params.id;
+        const uid = req.params.uid;
         const { firstname, lastname,  email, age, password, rol } = req.body;
         const data= req.body
-        console.log(_id)
-        await Service.updateOne(_id, firstname, lastname,  email, age, password, rol)
+        console.log(uid)
+        await Service.updateOne(uid, firstname, lastname,  email, age, password, rol)
         return res.status(201).json({
             status: 'success',
             msg: 'User update',
