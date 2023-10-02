@@ -1,4 +1,3 @@
-// const UserServices = require('../dao/mongo/services/users.services')
 const UserService = require('../services/users.service');
 const Service = new UserService()
 
@@ -56,18 +55,17 @@ const rolUserById = async (req,res)=>{
     try{
         let _id = req.params.uid
         const user = await  Service.getById(_id)
-        console.log(user)
         if(user.rol === 'User'){
             user.rol= 'Premium' 
-            await Service.updateOne(_id, user.firstName, user.lastName, user.email, user.age, user.password, user.rol)
+            await Service.updateOne(_id,user) 
             return res.status(201).json({
                 status: 'success',
                 msg: 'User update rol: Premium',
             });
-
+ 
         }else{
             user.rol= 'User'
-            await Service.updateOne(_id, user.firstName, user.lastName, user.email, user.age, user.password, user.rol)
+            await Service.updateOne(_id,user) 
             return res.status(201).json({
                 status: 'success',
                 msg: 'User update rol: User',
@@ -106,10 +104,8 @@ const delUserById =  async (req, res) => {
 const putUserById = async (req, res) => { 
     try {
         const uid = req.params.uid;
-        const { firstname, lastname,  email, age, password, rol } = req.body;
         const data= req.body
-        console.log(uid)
-        await Service.updateOne(uid, firstname, lastname,  email, age, password, rol)
+        await Service.updateOne(uid,data)
         return res.status(201).json({
             status: 'success',
             msg: 'User update',

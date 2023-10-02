@@ -22,7 +22,7 @@ components:
           description: Edad del usuario
         password:
           type: String
-          description: Contraseña del usuario
+          description: Contraseña del usuario.
       example:
         firstName: Nombre de prueba 1
         lastName: Apellido de prueba 1
